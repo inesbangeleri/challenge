@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,9 +12,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"/>
+      </Head>
       <body className={inter.className}>
+        <header class="min-w-full shadow-md shadow-[#0E1342]/50 overflow-hidden bg-[#0E1342] h-[60px] top-5 left-14 flex items-center">
+          <p class="ml-3 md:ml-20 text-white text-[22px] text-left font-semibold leading-5 align-middle">Currency exchange</p>
+        </header>
         {children}
       </body>
     </html>
   )
 }
+
+//class="w-full bg-[#0E1342] h-[60px] top-5 left-14 flex items-center shadow-lg shadow-[#0E1342]/50"
