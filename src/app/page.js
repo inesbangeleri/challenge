@@ -15,7 +15,7 @@ export default async function Home() {
   const currencies = await fetchCurrencies()
   const rates = await fetchRates()
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main>
       <CurrencyExchange currencies={currencies} rates={rates}/>
     </main>
   )
