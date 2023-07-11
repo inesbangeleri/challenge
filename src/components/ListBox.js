@@ -3,10 +3,9 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ChevronDownIcon, CheckIcon } from '@heroicons/react/20/solid'
 
-export default function ListBox() {
+export default function ListBox({ selected, currenciesArray, onChange, setSelected }) {
     return (
         <Listbox value={selected} onChange={(e) => {
-            console.log('onChange Data', e)
             setSelected(e)
             onChange(e[0])
         }}>
