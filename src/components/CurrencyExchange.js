@@ -5,7 +5,6 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ChevronDownIcon, CheckIcon } from '@heroicons/react/20/solid'
 import icon from '../../public/icon.svg'
-import CommonText from './CommonText'
 
 const fetchRates = async (rate) => {
     return fetch(`https://api.vatcomply.com/rates?base=${rate}`)
@@ -16,23 +15,23 @@ export default function CurrencyExchange({ currencies, rates }) {
     const currenciesArray = Object.entries(currencies)
     const [selected, setSelected] = useState(currenciesArray.find(val => val[0] ===  'USD'))
     const [selectedTo, setToSelected] = useState(currenciesArray.find(val => val[0] ===  'EUR'))
-    const [value, setValue] = useState(1.00)
+    const numberDefault = 1
+    const [value, setValue] = useState(numberDefault.toFixed(2))
     const [valueRate, setValueRate] = useState(rates.rates.EUR)
     const [selectadRates, setSelectadRates] = useState(rates.rates)
 
-    const handleChange = event => {
+    const handleChange = (event) => {
         const inputValue = event.target.value;
-    
         // Verificar si el valor es un número válido
         if (!/^\d*\.?\d*$/.test(inputValue)) {
           return;
         }
-        
         // Verificar si el número es negativo
         const numberValue = parseFloat(inputValue);
         if (numberValue < 0) {
           return;
         }
+
         setValue(inputValue);   
       };
 
@@ -42,18 +41,18 @@ export default function CurrencyExchange({ currencies, rates }) {
         setValueRate(newRates.rates[selectedTo[0]])
     }
       
-    const onChangeTo = async (value) => {
+    const onChangeTo = (value) => {
         setValueRate(selectadRates[value])
     }
 
     const onClick = async () =>{
-        const from1 = selected
-        const to1 = selectedTo
-        setSelected(to1)
-        setToSelected(from1)
-        const newRates = await fetchRates(to1[0])
+        const fromOld = selected
+        const toOld = selectedTo
+        setSelected(toOld)
+        setToSelected(fromOld)
+        const newRates = await fetchRates(toOld[0])
         setSelectadRates(newRates.rates)
-        setValueRate(newRates.rates[from1[0]])
+        setValueRate(newRates.rates[fromOld[0]])
     }
 
   return (
@@ -75,8 +74,11 @@ export default function CurrencyExchange({ currencies, rates }) {
                                     class='block font-semibold text-[16px] text-black border-[1px] w-full cursor-default rounded-lg bg-white py-2 pl-7 pr-10 focus:ring-blue-500 focus:border-blue-500 text-left text-sm'
                                     type="text"
                                     value={value}
+                                    step="0.01"
                                     onChange={handleChange}
                                     placeholder="Enter a positive number"
+                                    min="0" 
+                                    max="10"
                                 />
                             </div>
                         </div>
